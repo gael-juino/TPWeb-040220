@@ -5,7 +5,7 @@ var config = {
 physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 250 },
             debug: true
         }
     },
@@ -27,28 +27,35 @@ var bomb;
 
 
 function preload(){
-	this.load.image('background','assets/sky.png');	
-	this.load.image('fond','assets/fond.png');
-	this.load.image('etoile','assets/star.png');
-	this.load.image('sol','assets/platform.png');
-	this.load.image('bomb','assets/bomb.png');
-	this.load.spritesheet('perso','assets/blabla.png',{frameWidth: 32, frameHeight: 48});
+	this.load.image('background','assets/background1.png');
+	this.load.image('sky','assets/sky1.png');
+	this.load.image('background1','assets/background2.png');
+	this.load.image('sky1','assets/sky2.png');
+	this.load.spritesheet('perso','assets/slime.png',{frameWidth: 32, frameHeight: 25});
+	this.load.image('etoile','assets/piece.png');
+	this.load.image('bomb','assets/bat.png')
+	this.load.image('platforms','assets/platforms.png');
 }
 
 
 
 function create(){
+	
+	this.add.image(400,300,'sky1');
+	this.add.image(400,300,'sky');
+	this.add.image(400,300,'background1');
 	this.add.image(400,300,'background');
 
+
 	platforms = this.physics.add.staticGroup();
-	platforms.create(400,568,'sol').setScale(2).refreshBody();
-	platforms.create(600,400,'sol');
-	platforms.create(50,250,'sol');
+	platforms.create(400,725,'platforms').setScale(4).refreshBody();
+	platforms.create(600,400,'platforms');
+	platforms.create(70,250,'platforms');
 	
 	player = this.physics.add.sprite(100,450,'perso');
 	player.setCollideWorldBounds(true);
 	player.setBounce(0.2);
-	player.body.setGravityY(000);
+	player.body.setGravityY(0);
 	this.physics.add.collider(player,platforms);
 	
 	cursors = this.input.keyboard.createCursorKeys(); 
@@ -88,11 +95,13 @@ function update(){
 		player.anims.play('left', true);
 		player.setVelocityX(-300);
 		player.setFlipX(false);
-	}else if(cursors.right.isDown){
+	}
+	else if(cursors.right.isDown){
 		player.setVelocityX(300);
 		player.anims.play('left', true);
 		player.setFlipX(true);
-	}else{
+	}
+	else{
 		player.anims.play('stop', true);
 		player.setVelocityX(0);
 	}
@@ -100,8 +109,9 @@ function update(){
 	if(cursors.up.isDown && player.body.touching.down){
 		player.setVelocityY(-330);
 	} 
-	
 }
+
+
 function hitBomb(player, bomb){
 	this.physics.pause();
 	player.setTint(0xff0000);
