@@ -89,7 +89,7 @@ function create(){
 }
 
 
-
+ 
 function update(){
 	if(cursors.left.isDown){
 		player.anims.play('left', true);
